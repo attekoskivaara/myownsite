@@ -1,0 +1,32 @@
+<!-- templates/about.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header class="masthead">
+  <p>
+    {% load static %}
+    <img src="{% static 'media/tausta.jpg' %}" width="100%"  alt="home" >
+  </p>
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class=" col-md-8 col-md-10 mx-auto">
+        <div class="site-heading">
+          <h3 class=" site-heading my-4 mt-3 text-dark"> About me </h3>
+          <p>I am a researcher at the natural resources institute Finland (Luke) and a PhD student at the university of Helsinki.
+            My research studies sustainable business models and emergence of innovations and how those can help to solve challenges in steering towards sustainable
+            development, in Finland and globally.
+          </p>
+          <p>On this site, I aim to write about general topics related to my field of research, summary posts of my own research
+            and sometimes about my other hobbies and interest.
+
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% endblock content %}

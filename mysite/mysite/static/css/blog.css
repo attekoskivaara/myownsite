@@ -1,0 +1,8 @@
+h1, h2, h3, h4, a {
+    color: #C25100;
+}
+
+
+caption, h1, h2, h3, h4, h5, p, a, td, tr, li, table {
+    font-family: 'Garamond', sans-serif;
+}
