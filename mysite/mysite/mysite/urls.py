@@ -19,19 +19,19 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from django.contrib.sitemaps.views import sitemap
-from blog.sitemaps import PostSitemap
+#from sitemaps import PostSitemap
 
 
-sitemaps = {
-    "posts": PostSitemap,
-}
+#sitemaps = {
+#    "posts": PostSitemap,
+#}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("blog.urls"), name="blog-urls"),
     path("summernote/", include("django_summernote.urls")),
-    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
-
+#    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
+    path('django_plotly_dash/', include('django_plotly_dash.urls')),
 ]
 
 if settings.DEBUG:

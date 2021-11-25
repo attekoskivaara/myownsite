@@ -1,9 +1,8 @@
 from . import views
 from django.urls import include
-
 from django.urls import path
 from .feeds import LatestPostsFeed, AtomSiteNewsFeed
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from .dash_apps import co_by_sector
 
 
 urlpatterns = [
@@ -14,6 +13,9 @@ urlpatterns = [
     path("<slug:slug>/", views.post_detail, name="post_detail"),
     path('tag/<slug:tag_slug>', views.TagIndexView.as_view(), name='posts_by_tag'),
     path("contact", views.contact, name="contact"),
-    path("", views.home, name="home")
+    path("", views.home, name="home"),
+    path("co2", views.co2, name="co2"),
+    path('django_plotly_dash/', include('django_plotly_dash.urls')),
+
 ]
 

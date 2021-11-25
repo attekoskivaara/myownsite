@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'blog',
     'crispy_forms',
     'django_summernote',
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
+    'channels',
+    'channels_redis',
 ]
 
 INSTALLED_APPS += ( 'django.contrib.sitemaps',)
@@ -52,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_plotly_dash.middleware.BaseMiddleware',
+    'django_plotly_dash.middleware.ExternalRedirectionMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -127,18 +132,34 @@ STATIC_URL = '/static/'
 # Location of static files
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-
-
-
-
-
-
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+ASGI_APPLICATION = 'mysite.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379), ],
+        }
+    }
+}
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django_plotly_dash.finders.DashAssetFinder',
+    'django_plotly_dash.finders.DashComponentFinder',
+]
+
+PLOTLY_COMPONENTS = [
+
+    'dash_core_components',
+    'dash_html_components',
+    'dash_renderer',
+    'dpd_components',
+]
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Media paths

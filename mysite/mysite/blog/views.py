@@ -5,6 +5,10 @@ from django.shortcuts import render, get_object_or_404
 from taggit.models import Tag
 
 
+def co2(request):
+    return render(request, "co2.html")
+
+
 def contact(request):
     return render(request, "contact.html")
 
