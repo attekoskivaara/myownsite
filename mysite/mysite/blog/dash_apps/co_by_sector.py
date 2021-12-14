@@ -4,14 +4,33 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
 from django_plotly_dash import DjangoDash
+#import dash_bootstrap_components as dbc
+
+k = 0.05
+a = 'Fuel combustion in energy industries',
+b = 'Fuel combustion in manufacturing industries and construction',
+c = 'Transport',
+d = 'Industrial processes and product use',
+e = 'Agriculture',
+f = 'Land use, land use change, and forestry (LULUCF)',
+g = 'Waste management'
+
 
 external_stylesheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = DjangoDash("co_by_sector", external_stylesheets=external_stylesheet)
 
+df = pd.read_excel(r'C:\Users\User1\Desktop\Blogi\mysiteDjango\mysite\mysite\static\data\european_co2_by_sector_w_indirect.xlsx')
+
+fig = px.line(df, x='Year', y=['Fuel combustion in energy industries', 'Fuel combustion in manufacturing industries and construction',
+                               'Transport','Industrial processes and product use','Agriculture','Land use, land use change, and forestry (LULUCF)',
+                               'Waste management',],)
+
+
 app.layout = html.Div(
     dcc.Graph(
-        id='example-graph2',
+        id='fig',
+        figure=fig,
         config={'displayModeBar': False},
         style={'width': '100%', 'display': 'inline-block'},
     )
@@ -19,15 +38,6 @@ app.layout = html.Div(
 )
 
 
-def graph():
 
-    df = pd.DataFrame({
-        "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-        "Amount": [4, 1, 2, 2, 4, 5],
-        "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-    })
 
-    fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
-
-    return fig
 
