@@ -9,7 +9,14 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from decouple import config
+import boto3
+from botocore.exceptions import ClientError
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+def get_secret():
+
+    secret_name = "SECRET_KEY"
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
