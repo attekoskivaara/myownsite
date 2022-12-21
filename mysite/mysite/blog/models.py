@@ -9,6 +9,17 @@ def __str__(self):
 STATUS = ((0, "Draft"), (1, "Publish"))
 
 
+class MainTextt(models.Model):
+    title = models.CharField(max_length=200, null=True, blank=True)
+    text_field = models.TextField(null=True, blank=True)
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True
+    )
+    def __str__(self):
+        return self.text_field
+
+
+
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)

@@ -44,14 +44,33 @@ PLOTLY_DASH = {
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0x!b#(1*cd73w$&azzc6p+essg7v=g80ls#z&xcx*mpemx&@9$'
+# SECRET_KEY = '0x!b#(1*cd73w$&azzc6p+essg7v=g80ls#z&xcx*mpemx&@9$'
+
+with open('C:/Users/03102120/desktop/django/mysite/mysite/etc/secret_key.txt') as f:
+   SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
+# SECURE_CONTENT_TYPE_NOSNIFF = True
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+# SECURE_SSL_REDIRECT = True
+
+# SESSION_COOKIE_SECURE = True
+
+# CSRF_COOKIE_SECURE = True
+
+# SECURE_HSTS_PRELOAD = True
+
+# SECURE_HSTS_SECONDS = 60
+# SECURE_HSTS_SECONDS = 31536000 # --vuosi sekunteina--
 # Application definition
 
 INSTALLED_APPS = [
@@ -195,6 +214,7 @@ PLOTLY_COMPONENTS = [
 #   'dash_bootstrap_components'
 ]
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+# X_FRAME_OPTIONS = 'DENY'
 
 # Media paths
 

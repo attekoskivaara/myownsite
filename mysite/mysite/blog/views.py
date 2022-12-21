@@ -1,5 +1,5 @@
 from django.views import generic
-from .models import Post
+from .models import Post, MainTextt
 from .forms import CommentForm
 from django.shortcuts import render, get_object_or_404
 from taggit.models import Tag
@@ -26,8 +26,15 @@ class PostList(TagMixin, generic.ListView):
     paginate_by = 3
 
 
+class Textin(MainTextt):
+        def queryset(self):
+            text = MainTextt.objects.all()
+            return render({'text': text})
+
+
 def home(request):
-    return render(request, "index.html")
+    text = get_object_or_404(MainTextt)
+    return render(request, "index.html", {'text': text})
 
 
 class TagIndexView(TagMixin, generic.ListView):
