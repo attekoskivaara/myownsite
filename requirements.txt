@@ -5,7 +5,8 @@ attrs==21.4.0
 autobahn==21.11.1
 Automat==20.2.0
 awsebcli==3.20.3
-botocore==1.23.54
+boto3==1.26.34
+botocore==1.29.34
 Brotli==1.0.9
 cement==2.8.2
 certifi==2022.9.24
@@ -61,6 +62,7 @@ pytz==2021.1
 pywin32==305
 PyYAML==5.4.1
 requests==2.26.0
+s3transfer==0.6.0
 semantic-version==2.8.5
 service-identity==21.1.0
 six==1.14.0
