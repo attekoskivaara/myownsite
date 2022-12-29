@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from decouple import config
-import boto3
-from botocore.exceptions import ClientError
+# import boto3
+# from botocore.exceptions import ClientError
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 
