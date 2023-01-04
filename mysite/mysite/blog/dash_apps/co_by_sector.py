@@ -24,7 +24,7 @@ external_stylesheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = DjangoDash("co_by_sector", external_stylesheets=external_stylesheet)
 
-df = pd.read_excel(r'C:\Users\03102120\Desktop\django\mysite\mysite\static\data\european_co2_by_sector_w_indirect.xlsx')
+df = pd.read_excel(r'C:/Users/User1/Desktop/Blogi/mysiteDjango/mysite/mysite/static/data/european_co2_by_sector_w_indirect.xlsx', engine='openpyxl')
 
 #table_header = [
 #    html.Thead(html.Tr([html.Th("2030"), html.Th("2050")]))
