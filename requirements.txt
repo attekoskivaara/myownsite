@@ -61,11 +61,10 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
 pyOpenSSL==21.0.0
-pypiwin32==223
+pypiwin32==305
 python-dateutil==2.8.1
 python-decouple==3.6
 pytz==2020.4
-pywin32==305
 PyYAML==5.4.1
 redis==4.4.0
 requests==2.26.0
