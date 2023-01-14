@@ -39,6 +39,7 @@ filelock==3.3.2
 Flask==1.1.2
 Flask-Compress==1.8.0
 future==0.16.0
+gunicorn==20.1.0
 hyperlink==21.0.0
 idna==3.3
 incremental==21.3.0
