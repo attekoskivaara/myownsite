@@ -78,11 +78,16 @@ PLOTLY_DASH = {
 
 # SECRET_KEY = get_secret()
 
-SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+
+if 'PRODUCTION' in os.environ:
+    SECRET_KEY = config('SECRET_KEY')
+    DEBUG = False
+else:
+    DEBUG = True
+    SECRET_KEY = config('SECRET_KEY')
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -105,7 +110,7 @@ CSRF_COOKIE_SECURE = True
 # Application definition
 
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
+ #   'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
