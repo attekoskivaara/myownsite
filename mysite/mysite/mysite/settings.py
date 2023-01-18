@@ -12,7 +12,21 @@ from decouple import config
 import boto3
 from botocore.exceptions import ClientError
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from pathlib import Path
+import os
+import subprocess
+import ast
 
+
+def get_environ_vars():
+    completed_process = subprocess.run(
+        ['/opt/elasticbeanstalk/bin/get-config', 'environment'],
+        stdout=subprocess.PIPE,
+        text=True,
+        check=True
+    )
+
+    return ast.literal_eval(completed_process.stdout)
 
 def get_secret():
 
