@@ -157,9 +157,6 @@ MIDDLEWARE = [
     'django_plotly_dash.middleware.ExternalRedirectionMiddleware',
 ]
 
-
-# SITE_ID = 1
-
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [
