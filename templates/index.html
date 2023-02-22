@@ -2,7 +2,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<style>
+  .maintext {
+  margin: 0;
+  padding: 5px;
+  background-color: rgb(245,245,245);
+ }
+</style>
 <header class="masthead">
   <p>
     {% load static %}
@@ -10,13 +16,15 @@
   </p>
   <div class="overlay"></div>
   <div class="container">
-    <div class="row">
-      <div class=" col-md-8 col-md-10 mx-auto">
-        <div class="site-heading">
-          <p>{{ text|safe }}</p>
+    <article class="maintext">
+      <div class="row">
+        <div class=" col-md-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <p>{{ text|safe }}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </article>
   </div>
 </header>
 
