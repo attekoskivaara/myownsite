@@ -32,9 +32,164 @@ df = pd.read_excel(myfile.content, engine='openpyxl')
 #    html.Thead(html.Tr([html.Th("2030"), html.Th("2050")]))
 #]
 
-
+#2030
 html.P(a),
-row1 = dcc.Slider(
+dcc.Slider(
+    id='percentage-slider',
+    min=0,
+    max=2,
+    step=0.1,
+    value=1,
+    marks={
+        0: '-100%',
+        0.2: '-80%',
+        0.4: '-60%',
+        0.6: '-40%',
+        0.8: '-20%',
+        1: '0%',
+        1.2: '+20%',
+        1.4: '+40%',
+        1.6: '60%',
+        1.8: '80%',
+        2: '100%'
+    }
+),
+
+html.P(b),
+dcc.Slider(
+    id='percentage-slider2',
+    min=0,
+    max=2,
+    step=0.1,
+    value=1,
+    marks={
+        0: '-100%',
+        0.2: '-80%',
+        0.4: '-60%',
+        0.6: '-40%',
+        0.8: '-20%',
+        1: '0%',
+        1.2: '+20%',
+        1.4: '+40%',
+        1.6: '60%',
+        1.8: '80%',
+        2: '100%'
+    }
+),
+html.P(c),
+dcc.Slider(
+    id='percentage-slider3',
+    min=0,
+    max=2,
+    step=0.1,
+    value=1,
+    marks={
+        0: '-100%',
+        0.2: '-80%',
+        0.4: '-60%',
+        0.6: '-40%',
+        0.8: '-20%',
+        1: '0%',
+        1.2: '+20%',
+        1.4: '+40%',
+        1.6: '60%',
+        1.8: '80%',
+        2: '100%'
+    }
+),
+html.P(d),
+dcc.Slider(
+    id='percentage-slider4',
+    min=0,
+    max=2,
+    step=0.1,
+    value=1,
+    marks={
+        0: '-100%',
+        0.2: '-80%',
+        0.4: '-60%',
+        0.6: '-40%',
+        0.8: '-20%',
+        1: '0%',
+        1.2: '+20%',
+        1.4: '+40%',
+        1.6: '60%',
+        1.8: '80%',
+        2: '100%'
+    }
+),
+html.P(e),
+dcc.Slider(
+    id='percentage-slider5',
+    min=0,
+    max=2,
+    step=0.1,
+    value=1,
+    marks={
+        0: '-100%',
+        0.2: '-80%',
+        0.4: '-60%',
+        0.6: '-40%',
+        0.8: '-20%',
+        1: '0%',
+        1.2: '+20%',
+        1.4: '+40%',
+        1.6: '60%',
+        1.8: '80%',
+        2: '100%',
+    }
+),
+html.P(f),
+dcc.Slider(
+    id='percentage-slider6',
+    min=0,
+    max=3,
+    step=0.1,
+    value=1,
+    marks={
+        0: '-100%',
+        0.2: '-80%',
+        0.4: '-60%',
+        0.6: '-40%',
+        0.8: '-20%',
+        1: '0%',
+        1.2: '+20%',
+        1.4: '+40%',
+        1.6: '60%',
+        1.8: '80%',
+        2: '100%',
+        2.2: '120%',
+        2.4: '140%',
+        2.6: '160%',
+        2.8: '180%',
+        3.0: '200%'
+    }
+),
+html.P(g)
+dcc.Slider(
+    id='percentage-slider7',
+    min=0,
+    max=2,
+    step=0.1,
+    value=1,
+    marks={
+        0: '-100%',
+        0.2: '-80%',
+        0.4: '-60%',
+        0.6: '-40%',
+        0.8: '-20%',
+        1: '0%',
+        1.2: '+20%',
+        1.4: '+40%',
+        1.6: '60%',
+        1.8: '80%',
+        2: '100%'
+    }
+),
+
+#2050
+html.P(a),
+dcc.Slider(
     id='percentage-slider',
     min=0,
     max=2,
@@ -208,6 +363,9 @@ app.layout = html.Div([
     ], className="row"),
 
     html.Div([
+        html.Div([
+
+        ], className="four columns"),
 
         html.Div([
             html.P(a),
@@ -224,19 +382,26 @@ app.layout = html.Div([
             dcc.Input(id='percentage-slider6', placeholder="0%", type='number', min=-100, max=200, step=1),
             html.P(g),
             dcc.Input(id='percentage-slider7', placeholder="0%", type='number', min=-100, max=200, step=1)
+            ], className="three columns"),
 
- #       ], className="six columns"),
-
-  #      html.Div([
-   #         html.P(b),
-
-    #    ], className="six columns"),
-
-#    ], className="row")
-
+        html.Div([
+            html.P(a),
+            dcc.Input(id='percentage-slider', placeholder="0%", type='number', min=-100, max=200, step=1),
+            html.P(b),
+            dcc.Input(id='percentage-slider2', placeholder="0%", type='number', min=-100, max=200, step=1),
+            html.P(c),
+            dcc.Input(id='percentage-slider3', placeholder="0%", type='number', min=-100, max=200, step=1),
+            html.P(d),
+            dcc.Input(id='percentage-slider4', placeholder="0%", type='number', min=-100, max=200, step=1),
+            html.P(e),
+            dcc.Input(id='percentage-slider5', placeholder="0%", type='number', min=-100, max=200, step=1),
+            html.P(f),
+            dcc.Input(id='percentage-slider6', placeholder="0%", type='number', min=-100, max=200, step=1),
+            html.P(g),
+            dcc.Input(id='percentage-slider7', placeholder="0%", type='number', min=-100, max=200, step=1)
+        ], className="three columns")
+    ], className="row")
 ])
-        ])
-    ])
 
 @app.callback([Output('barchart', 'figure'),
               Output('linechart', 'figure')],
