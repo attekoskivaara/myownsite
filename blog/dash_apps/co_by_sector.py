@@ -190,7 +190,7 @@ dcc.Slider(
 #2050
 html.P(a),
 dcc.Slider(
-    id='percentage-slider',
+    id='percentage-slider50',
     min=0,
     max=2,
     step=0.1,
@@ -212,7 +212,7 @@ dcc.Slider(
 
 html.P(b),
 dcc.Slider(
-    id='percentage-slider2',
+    id='percentage-slider250',
     min=0,
     max=2,
     step=0.1,
@@ -233,7 +233,7 @@ dcc.Slider(
 ),
 html.P(c),
 dcc.Slider(
-    id='percentage-slider3',
+    id='percentage-slider350',
     min=0,
     max=2,
     step=0.1,
@@ -254,7 +254,7 @@ dcc.Slider(
 ),
 html.P(d),
 dcc.Slider(
-    id='percentage-slider4',
+    id='percentage-slider450',
     min=0,
     max=2,
     step=0.1,
@@ -275,7 +275,7 @@ dcc.Slider(
 ),
 html.P(e),
 dcc.Slider(
-    id='percentage-slider5',
+    id='percentage-slider550',
     min=0,
     max=2,
     step=0.1,
@@ -296,7 +296,7 @@ dcc.Slider(
 ),
 html.P(f),
 dcc.Slider(
-    id='percentage-slider6',
+    id='percentage-slider650',
     min=0,
     max=3,
     step=0.1,
@@ -322,7 +322,7 @@ dcc.Slider(
 ),
 html.P(g)
 dcc.Slider(
-    id='percentage-slider7',
+    id='percentage-slider750',
     min=0,
     max=2,
     step=0.1,
@@ -368,6 +368,7 @@ app.layout = html.Div([
         ], className="four columns"),
 
         html.Div([
+            html.P("2030", style={'font-weight': 'bold'}),
             html.P(a),
             dcc.Input(id='percentage-slider', placeholder="0%", type='number', min=-100, max=200, step=1),
             html.P(b),
@@ -382,26 +383,27 @@ app.layout = html.Div([
             dcc.Input(id='percentage-slider6', placeholder="0%", type='number', min=-100, max=200, step=1),
             html.P(g),
             dcc.Input(id='percentage-slider7', placeholder="0%", type='number', min=-100, max=200, step=1)
-            ], className="three columns"),
+            ], className="four columns"),
 
         html.Div([
+            html.P("2050", style={'font-weight': 'bold'}),
             html.P(a),
-            dcc.Input(id='percentage-slider', placeholder="0%", type='number', min=-100, max=200, step=1),
+            dcc.Input(id='percentage-slider50', placeholder="0%", type='number', min=-100, max=200, step=1),
             html.P(b),
-            dcc.Input(id='percentage-slider2', placeholder="0%", type='number', min=-100, max=200, step=1),
+            dcc.Input(id='percentage-slider250', placeholder="0%", type='number', min=-100, max=200, step=1),
             html.P(c),
-            dcc.Input(id='percentage-slider3', placeholder="0%", type='number', min=-100, max=200, step=1),
+            dcc.Input(id='percentage-slider350', placeholder="0%", type='number', min=-100, max=200, step=1),
             html.P(d),
-            dcc.Input(id='percentage-slider4', placeholder="0%", type='number', min=-100, max=200, step=1),
+            dcc.Input(id='percentage-slider450', placeholder="0%", type='number', min=-100, max=200, step=1),
             html.P(e),
-            dcc.Input(id='percentage-slider5', placeholder="0%", type='number', min=-100, max=200, step=1),
+            dcc.Input(id='percentage-slider550', placeholder="0%", type='number', min=-100, max=200, step=1),
             html.P(f),
-            dcc.Input(id='percentage-slider6', placeholder="0%", type='number', min=-100, max=200, step=1),
+            dcc.Input(id='percentage-slider650', placeholder="0%", type='number', min=-100, max=200, step=1),
             html.P(g),
-            dcc.Input(id='percentage-slider7', placeholder="0%", type='number', min=-100, max=200, step=1)
-        ], className="three columns")
-    ], className="row")
-])
+            dcc.Input(id='percentage-slider750', placeholder="0%", type='number', min=-100, max=200, step=1)
+        ], className="four columns")
+    ], className="row2", style={'height': None})
+], style={'height': None})
 
 @app.callback([Output('barchart', 'figure'),
               Output('linechart', 'figure')],
@@ -411,8 +413,17 @@ app.layout = html.Div([
                Input('percentage-slider4', 'value'),
                Input('percentage-slider5', 'value'),
                Input('percentage-slider6', 'value'),
-               Input('percentage-slider7', 'value')])
-def update_figure(percentage, percentage2, percentage3, percentage4, percentage5, percentage6, percentage7):
+               Input('percentage-slider7', 'value'),
+               Input('percentage-slider50', 'value'),
+               Input('percentage-slider250', 'value'),
+               Input('percentage-slider350', 'value'),
+               Input('percentage-slider450', 'value'),
+               Input('percentage-slider550', 'value'),
+               Input('percentage-slider650', 'value'),
+               Input('percentage-slider750', 'value')
+               ])
+def update_figure(percentage, percentage2, percentage3, percentage4, percentage5, percentage6, percentage7,
+                  percentage50, percentage250, percentage350, percentage450, percentage550, percentage650, percentage750):
     percentage = 0 if percentage is None else percentage
     percentage2 = 0 if percentage2 is None else percentage2
     percentage3 = 0 if percentage3 is None else percentage3
@@ -420,6 +431,13 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
     percentage5 = 0 if percentage5 is None else percentage5
     percentage6 = 0 if percentage6 is None else percentage6
     percentage7 = 0 if percentage7 is None else percentage7
+    percentage50 = 0 if percentage50 is None else percentage50
+    percentage250 = 0 if percentage250 is None else percentage250
+    percentage350 = 0 if percentage350 is None else percentage350
+    percentage450 = 0 if percentage450 is None else percentage450
+    percentage550 = 0 if percentage550 is None else percentage550
+    percentage650 = 0 if percentage650 is None else percentage650
+    percentage750 = 0 if percentage750 is None else percentage750
 
     #-90 totaalipäästöt
     tot90 = df.at[0, 'Total']
@@ -452,6 +470,21 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
     df3.iloc[2, 7] *= percentage6/100+1
     percentage7 = float(percentage7)
     df3.iloc[2, 8] *= percentage7/100+1
+
+    percentage50 = float(percentage50)
+    df3.iloc[3, 2] *= (percentage50)/100+1
+    percentage250 = float(percentage250)
+    df3.iloc[3, 3] *= percentage250/100+1
+    percentage350 = float(percentage350)
+    df3.iloc[3, 4] *= percentage350/100+1
+    percentage450 = float(percentage450)
+    df3.iloc[3, 5] *= percentage450/100+1
+    percentage550 = float(percentage550)
+    df3.iloc[3, 6] *= percentage550/100+1
+    percentage650 = float(percentage650)
+    df3.iloc[3, 7] *= percentage650/100+1
+    percentage750 = float(percentage750)
+    df3.iloc[3, 8] *= percentage750/100+1
 
     # summataan rivi
     df3['sum'] = df3.drop(['Year', 'Total'], axis=1).sum(axis=1)
@@ -494,11 +527,13 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
 
     fig2.update_xaxes(
         dict(type="category"),
-        title='',
+        title=None,
         #        title_font=(dict(size=18)),
         title_standoff=10,
         linecolor='darkgray',
     )
+
+    fig2.update_layout(yaxis_title=None)
 
     fig = px.line(df1, x='Year', y=['Total', 'Land use, land use change, and forestry (LULUCF)'])
 
