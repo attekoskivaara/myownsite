@@ -502,15 +502,23 @@ dcc.Slider(
 card_i = [
     dbc.CardBody(
         [
-            html.H4("Information", className="card-title"),
+            html.H4("Instructions", className="card-title"),
             html.P(
                 "This is a tool to try how the European Union can meet its greenhouse gas (GHG) emissions reduction "
                 "targets. There are eight top level GHG emission sources and one carbon sink (Land use, land use change, and "
-                "forestry (LULUCF))."
-                "The data are collected from Eurostat's.", className="card-text",
+                "forestry (LULUCF)). The user may determine how many percentages GHG emissions have decreased or "
+                "increased on each sector."
             ),
-            html.P("With the 2030 Climate Target Plan, the Commission proposes to raise the EU's ambition on reducing "
-                   "greenhouse gas emissions to at least 55% below 1990 levels by 2030. "),
+            html.P(
+                "The data are collected from Eurostat's publicly available data bases.", className="card-text",
+            ),
+            html.H5("Reduction targets"),
+            html.P("2030 current target - In the 2030 Climate Target Plan, the European Commission proposes to raise the EU's ambition on reducing "
+                   "greenhouse gas emissions to at least 55% below 1990 levels by 2030. Compared to the earlier target, the current target"
+                   "includes emissions from the Land use, land use change, and forestry (LULUCF) sector."),
+            html.P("2030 earlier target - The earlier reduction target was to cut 40% in comparison to 1990 emissions by 2030. "),
+            html.P("2050 current target - The long term target is for European Union to be carbon neutral by 2050. "),
+
             html.H5("Other fuel combustion sectors", className="card-title"),
             html.P(
                 "Consists mainly of the household and services sectors."
@@ -660,12 +668,12 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
     tot90 = df.at[0, 'Total']
 
     #tehdään df2 barchartteihein
-    df2 = df.loc[(df['Year'] == 1990) | (df['Year'] == 2018)]
-    df30 = df.loc[(df['Year'] == 2018)]
+    df2 = df.loc[(df['Year'] == 1990) | (df['Year'] == 2019)]
+    df30 = df.loc[(df['Year'] == 2019)]
 
 #    df30 = df30.drop(['2050 - target', '2030 - target (-40%)', '2030 - target (-55%)', 'Total', '% change', '2050 target change', '2nd target change', '1st target change'], axis=1)
 #    df2 = df2.drop(['2050 - target', '2030 - target (-40%)', '2030 - target (-55%)', 'Total', '% change', '2050 target change', '2nd target change', '1st target change'], axis=1)
-    df30 = df30.replace(2018, 2030)
+    df30 = df30.replace(2019, 2030)
     df50 = df30.replace(2030, 2050)
     df2 = df2.append(df30)
     df2 = df2.append(df50)
@@ -723,9 +731,11 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
         axis=1)
     # 2018 päästöt ja lulucf
     q = (df3.iloc[1, 15])
-
+    print(df3)
+    print(len(df3))
     # lulucf18
     lulucf18 = (df3.iloc[1, 9])
+    print(lulucf18)
     # -30 ja -50 päästöt huomioiden lulucf
     tot30 = df3.iloc[2, 15]
     tot50 = df3.iloc[3, 15]
@@ -738,13 +748,13 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
     df1.loc[df1.Year == 2030, 'Estimate excl. LULUCF'] = excllulu30
     df1.loc[df1.Year == 2050, 'Estimate excl. LULUCF'] = excllulu50
 
-    df1.loc[df1.Year == 2018, 'Estimate'] = q
-    df1.loc[df1.Year == 2018, 'Estimate excl. LULUCF'] = q - lulucf18
+    df1.loc[df1.Year == 2019, 'Estimate'] = q
+    df1.loc[df1.Year == 2019, 'Estimate excl. LULUCF'] = q - lulucf18
 
     lulucf30 = tot30 - excllulu30
     lulucf50 = tot50 - excllulu50
 
-    df1.loc[df1.Year == 2018, 'LULUCF'] = lulucf18
+    df1.loc[df1.Year == 2019, 'LULUCF'] = lulucf18
     df1.loc[df1.Year == 2030, 'LULUCF'] = lulucf30
     df1.loc[df1.Year == 2050, 'LULUCF'] = lulucf50
 
