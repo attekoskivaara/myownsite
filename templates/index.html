@@ -8,6 +8,13 @@
   padding: 5px;
   background-color: rgb(245,245,245);
  }
+
+  .container {
+  display: flex;
+  align-items: center;
+  justify-content: center
+  }
+
 </style>
 <header class="masthead">
   <p>
@@ -16,12 +23,12 @@
   <div class="overlay"></div>
   <div class="container">
     <article class="maintext">
-      <div class="row">
-        <img src="{% static 'media/Atte-modified.png' %}" width="20%", height="auto" alt="home" >
-        <div class=" col-md-8 col-md-10 mx-auto">
-          <div class="site-heading">
-            <p>{{ text|safe }}</p>
-          </div>
+      <div class = "row">
+        <div class="col-md-3">
+          <img src="{% static 'media/Atte-modified.png' %}" width="100%", height="auto" alt="", border="1px", id = "kuva"/>
+        </div>
+        <div class="col-md-9">
+          <p>{{ text|safe }}</p>
         </div>
       </div>
     </article>
