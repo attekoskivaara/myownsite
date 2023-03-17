@@ -504,30 +504,32 @@ card_i = [
         [
             html.H4("Instructions", className="card-title"),
             html.P(
-                "This is a tool to try how the European Union can meet its greenhouse gas (GHG) emissions reduction "
-                "targets. There are eight top level GHG emission sources and one carbon sink (Land use, land use change, and "
-                "forestry (LULUCF)). The user may determine how many percentages GHG emissions have decreased or "
-                "increased on each sector."
+                "This tool is about the European Union’s (EU) greenhouse gas (GHG) emission reduction targets."
+                " There are eight top level GHG emission sources and one carbon sink (Land use, land use change, and"
+                " forestry (LULUCF))."
+            ),
+            html.P("The user may adjust how many percent GHG emissions have decreased or increased in each sector. "
+                   "This can be done for years 2030 and 2050, following the EU’s reduction targets."
             ),
             html.P(
                 "The data are collected from Eurostat's publicly available data bases.", className="card-text",
             ),
             html.H5("Reduction targets"),
-            html.P("2030 current target - In the 2030 Climate Target Plan, the European Commission proposes to raise the EU's ambition on reducing "
-                   "greenhouse gas emissions to at least 55% below 1990 levels by 2030. Compared to the earlier target, the current target"
-                   "includes emissions from the Land use, land use change, and forestry (LULUCF) sector."),
-            html.P("2030 earlier target - The earlier reduction target was to cut 40% in comparison to 1990 emissions by 2030. "),
-            html.P("2050 current target - The long term target is for European Union to be carbon neutral by 2050. "),
 
-            html.H5("Other fuel combustion sectors", className="card-title"),
-            html.P(
-                "Consists mainly of the household and services sectors."
-            ),
-            html.H5("Fugitive emissions"),
-            html.P(
-                "Releases of GHGs from anthropogenic activities such as exploration, production, "
-                "processing, transmission, distribution and storage of fuels."
-            )
+            html.B("2030 current target"),
+            html.P("In the 2030 Climate Target Plan, the European Commission proposes to raise "
+                   "the EU's ambition on reducing greenhouse gas emissions to at least 55% below 1990 levels by 2030. "
+                   "Compared to the earlier target, the current target includes the LULUCF sector. Thus, by increasing "
+                   "LULUCF percentage in the tool, it will lower the “GHG estimate incl. the LULUCF” as carbon is "
+                   "sequestered in forests, for example."),
+            html.B(
+                  "2030 earlier target"),
+            html.P("The earlier reduction target was to cut 40% of the GHG emissions in "
+                    "comparison to 1990 emissions by 2030."),
+
+            html.B("2050 target"),
+            html.P("The long-term target of the EU is to be carbon neutral by 2050."),
+
         ]
     ),
 ]
