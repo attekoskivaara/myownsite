@@ -248,6 +248,12 @@ STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+SUMMERNOTE_THEME = 'bs4'
+
+SUMMERNOTE_CONFIG = {
+    'attachment_filesize_limit': int(1024 * 1024 *1024) // 4 // 3
+}
+
 ASGI_APPLICATION = 'mysite.routing.application'
 
 CHANNEL_LAYERS = {
@@ -284,7 +290,9 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # Media paths
 
 # Base url to serve media files
+# MEDIA_URL = '/django-summernote/'
+
 MEDIA_URL = '/media/'
 
 # Path where media is stored
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
