@@ -16,6 +16,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import url, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from django.contrib.sitemaps.views import sitemap
@@ -32,6 +33,7 @@ urlpatterns = [
     path("summernote/", include("django_summernote.urls")),
 #    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
+    url(r'^health/?', include('health_check.urls'))
 ]
 
 if settings.DEBUG:

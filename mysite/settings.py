@@ -133,6 +133,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'health_check',
+    'health_check.db',
+    'health_check.cache',
+    'health_check.storage',
 
     'taggit',
     'blog',
