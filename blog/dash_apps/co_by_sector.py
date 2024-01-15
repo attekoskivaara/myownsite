@@ -1,5 +1,5 @@
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
@@ -28,7 +28,7 @@ external_stylesheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = DjangoDash("co_by_sector", external_stylesheets=external_stylesheet)
 
 url = ('https://github.com/attekoskivaara/European-GHG-emissions/blob/main/european_co2_by_sector_w_indirect_2.xlsx?raw=true')
-myfile = requests.get(url)
+myfile = requests.get(url, verify=False)
 df = pd.read_excel(myfile.content, engine='openpyxl')
 
 #table_header = [

@@ -18,43 +18,6 @@ import subprocess
 import ast
 
 
-def get_environ_vars():
-    completed_process = subprocess.run(
-        ['/opt/elasticbeanstalk/bin/get-config', 'environment'],
-        stdout=subprocess.PIPE,
-        text=True,
-        check=True
-    )
-
-    return ast.literal_eval(completed_process.stdout)
-
-def get_secret():
-
-    secret_name = "SECRET_KEY"
-    region_name = "eu-north-1"
-
-    # Create a Secrets Manager client
-    session = boto3.session.Session()
-    client = session.client(
-        service_name='secretsmanager',
-        region_name=region_name
-    )
-
-    try:
-        get_secret_value_response = client.get_secret_value(
-            SecretId=secret_name
-        )
-    except ClientError as e:
-        # For a list of exceptions thrown, see
-        # https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
-        raise e
-
-    # Decrypts secret using the associated KMS key.
-    secret = get_secret_value_response['SecretString']
-
-    # Your code goes here.
-
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
@@ -134,10 +97,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'health_check',
-    'health_check.db',
-    'health_check.cache',
-    'health_check.storage',
-
+  #  'health_check.db',
+  #  'health_check.cache',
+  #  'health_check.storage',
     'taggit',
     'blog',
     'crispy_forms',
@@ -145,6 +107,8 @@ INSTALLED_APPS = [
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'channels',
     'channels_redis',
+    'crispy_bootstrap4',
+
 ]
 
 INSTALLED_APPS += ( 'django.contrib.sitemaps',)
@@ -192,7 +156,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.mysql',
             'NAME': config('RDS_DB_NAME'),
             'USER': config('RDS_USERNAME'),
             'PASSWORD': config('RDS_PASSWORD'),
@@ -208,7 +172,6 @@ else:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -291,8 +254,7 @@ PLOTLY_COMPONENTS = [
 #   'dash_bootstrap_components'
 ]
 X_FRAME_OPTIONS = 'SAMEORIGIN'
-# X_FRAME_OPTIONS = 'DENY'
-
+# X_FRAME_OPTIONS = 'DENY
 # Media paths
 
 # Base url to serve media files
