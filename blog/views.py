@@ -46,9 +46,9 @@ class TagIndexView(TagMixin, generic.ListView):
         return Post.objects.filter(tags__slug=self.kwargs.get('tag_slug'))
 
 
-# class PostDetail(generic.DetailView):
-#     model = Post
-#     template_name = 'post_detail.html'
+class PostDetail(generic.DetailView):
+     model = Post
+     template_name = 'post_detail.html'
 
 
 def post_detail(request, slug):

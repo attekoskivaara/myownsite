@@ -29,7 +29,7 @@ external_stylesheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = DjangoDash("co_by_sector", external_stylesheets=external_stylesheet)
 
 url = ('https://github.com/attekoskivaara/European-GHG-emissions/blob/main/european_co2_by_sector_w_indirect_2.xlsx?raw=true')
-myfile = requests.get(url, verify=False)
+myfile = requests.get(url)
 df = pd.read_excel(myfile.content, engine='openpyxl')
 
 #table_header = [

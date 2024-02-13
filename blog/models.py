@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Model
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 
@@ -11,10 +12,11 @@ STATUS = ((0, "Draft"), (1, "Publish"))
 
 class MainTextt(models.Model):
     title = models.CharField(max_length=200, null=True, blank=True)
-    text_field = models.TextField(null=True, blank=True)
+    text_field = models.TextField(blank=True, default='')
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True
     )
+    readonly_fields = ('created_on', 'updated_on')
     def __str__(self):
         return self.text_field
 
@@ -27,7 +29,7 @@ class Post(models.Model):
         User, on_delete=models.CASCADE, related_name="blog_posts"
     )
     updated_on = models.DateTimeField(auto_now=True)
-    content = models.TextField()
+    content = models.TextField(blank=True, default='')
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
 #    category = models.CharField(max_length=200, default='Uncategorized')

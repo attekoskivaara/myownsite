@@ -7,6 +7,9 @@ from django_summernote.admin import SummernoteModelAdmin
 class PostAdmin(SummernoteModelAdmin):
     summernote_fields = '__all__'
 
+admin.site.register(Post, PostAdmin)
+admin.site.register(MainTextt, PostAdmin)
+# admin.site.register(Category)
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
@@ -19,6 +22,3 @@ class CommentAdmin(admin.ModelAdmin):
         queryset.update(active=True)
 
 
-admin.site.register(Post, PostAdmin)
-admin.site.register(MainTextt, PostAdmin)
-admin.site.register(Category)

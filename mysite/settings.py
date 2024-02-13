@@ -58,12 +58,10 @@ PLOTLY_DASH = {
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-if 'PRODUCTION' in os.environ:
-    SECRET_KEY = config('SECRET_KEY')
-    DEBUG = False
-else:
-    DEBUG = True
-    SECRET_KEY = config('SECRET_KEY')
+
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = False
+
 
 
 ALLOWED_HOSTS = ['*']
@@ -153,18 +151,28 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'hulicupter$default',
+        'USER': 'hulicupter',
+        'PASSWORD': config('RDS_PASSWORD'),
+        'HOST': 'hulicupter.mysql.pythonanywhere-services.com'
+    }
+}
+
+'''
 if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': config('RDS_DB_NAME'),
-            'USER': config('RDS_USERNAME'),
+            'NAME': 'hulicupter$default',
+            'USER': 'hulicupter',
             'PASSWORD': config('RDS_PASSWORD'),
-            'HOST': config('RDS_HOSTNAME'),
-            'PORT': config('RDS_PORT'),
-#            'PORT': config('DB_PORT'),
+            'HOST': 'hulicupter.mysql.pythonanywhere-services.com'
         }
     }
+
 else:
     DATABASES = {
         'default': {
@@ -172,6 +180,7 @@ else:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+'''
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -209,9 +218,10 @@ USE_TZ = True
 
 
 # Location of static files
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, "..", "www", "static")
+#STATIC_ROOT = os.path.join(BASE_DIR, "..", "www", "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATIC_URL = '/static/'
 
@@ -263,4 +273,5 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 MEDIA_URL = '/media/'
 
 # Path where media is stored
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
