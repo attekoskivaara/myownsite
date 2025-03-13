@@ -513,7 +513,7 @@ card_i = [
                    "This can be done for years 2030 and 2050, following the EU’s reduction targets."
             ),
             html.P(
-                "The data are collected from Eurostat's publicly available data bases.", className="card-text",
+                "The data are collected from Eurostat's publicly available data bases with latest available year being 2019.", className="card-text",
             ),
             html.H5("Reduction targets"),
 
@@ -678,9 +678,11 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
 #    df2 = df2.drop(['2050 - target', '2030 - target (-40%)', '2030 - target (-55%)', 'Total', '% change', '2050 target change', '2nd target change', '1st target change'], axis=1)
     df30 = df30.replace(2019, 2030)
     df50 = df30.replace(2030, 2050)
-    df2 = df2.append(df30)
-    df2 = df2.append(df50)
+    df2 = pd.concat([df2, df30], axis=0)
+    df2 = pd.concat([df2, df50], axis=0)
     df2 = df2.reset_index(drop=True)
+
+    print(df2)
 
     df1 = df.copy()
     df3 = df2.copy()
@@ -784,9 +786,16 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
         linecolor='darkgray',
     )
 
-    fig2.update_layout(yaxis_title=None)
+    fig2.update_layout(yaxis_title=None, autosize=False)
 
     fig = px.line(df1, x='Year', y=['Total', 'Land use, land use change, and forestry (LULUCF)'])
+
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            '%{x}',
+            '%{y:.3s}' + ' billion metric tons of CO₂ equivalent (GtCO₂e)' + "<extra></extra>",
+            ]),
+        )
 
     fig.add_trace(
         go.Scatter(
@@ -798,8 +807,8 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
             line=dict(dash='dash', color='#907163'),
             text=df1['% change to 30 incl. lulucf'],
             hovertemplate="<br>".join([
-                    '%{y:1,.0f}',
-                    'Change since 1990: %{text:1,.0f}'+'%',
+                    '%{y:.3s}',
+                    'Change since 1990: %{text:.0f}'+'%',
                     ])
         )
     )
@@ -814,8 +823,8 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
             line=dict(dash='dash', color='#907163'),
             text=df1['% change to 30'],
             hovertemplate="<br>".join([
-                    '%{y:1,.0f}',
-                    'Change since 1990: %{text:1,.0f}'+'%',
+                    '%{y:.3s}'+'',
+                    'Change since 1990: %{text:.0f}'+'%',
                     ])
         )
     )
@@ -827,7 +836,7 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
             mode='markers',
             name='Target - (-40%)',
 #            text=df1['2030 - target (-40%)'],
-            hovertemplate='Target (-40%) %{y:1,.0f}'
+            hovertemplate='Target (-40%) %{y:.0f}'
         )
     )
 
@@ -838,7 +847,7 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
             mode='markers',
             name='Target - (-55%)',
             #            text=df1['2030 - target (-40%)'],
-            hovertemplate='Target (-55%) %{y:1,.0f}'
+            hovertemplate='Target (-55%) %{y:.0f}'
         )
     )
 
@@ -849,10 +858,12 @@ def update_figure(percentage, percentage2, percentage3, percentage4, percentage5
             mode='markers',
             name='Target - (-100%)',
             #            text=df1['2030 - target (-40%)'],
-            hovertemplate='Target (-100%) %{y:1,.0f}'
+            hovertemplate='Target (-100%) %{y:.0f}'
         )
     )
     fig.update_layout(showlegend = False)
-    fig.update_yaxes(title_text='')
+
+#    fig.update_layout(hovermode="x unified")
+    fig.update_yaxes(title_text='', tickformat="6.d")
 
     return fig2, fig
