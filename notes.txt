@@ -1,0 +1,6 @@
+11.4.2025
+
+Toimii developmentissä, paitsi co_by_sector ei piirrä kuvaajia, mutta ei virhettä. Ehkä johtuu siitä, että Luken verkossa ei saa dataa githubista, missä eksel on.
+
+
+- Pitäisi puskea githubiin päivitetty requirements.txt 

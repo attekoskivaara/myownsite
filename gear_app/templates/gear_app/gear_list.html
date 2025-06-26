@@ -1,0 +1,65 @@
+<!-- templates/gear_app/gear_list.html -->
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'gear_app/styles.css' %}">
+</head>
+
+<h2>My Gear</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Equipment</th>
+            <th>Sport</th>
+            <th>Type</th>
+            <th>Purchase price, €</th>
+            <th>Total Distance, km</th>
+            <th>Total Duration, hours</th>
+            <th>Average speed</th>
+            <th>Usage Count</th>
+            <th>€ / Used Duration</th>
+            <th>Average km/use</th>
+            <th>Edit</th>
+            <th>Set as default gear in...</th>
+            <th>Gear Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for gear in gear_data %}
+        <tr>
+            <td>{{ gear.brand }} {{ gear.model }}</td>
+            <td>{{ gear.sport.name }}</td>
+            <td>{{ gear.equipment_type.name }}</td>
+            <td>{{ gear.purchase_price }}</td>
+            <td>{{ gear.total_distance|floatformat:1 }} km</td>
+            <td>{{ gear.get_total_duration|floatformat:2 }} h</td>
+            <td>{{ gear.get_average_speed }}</td>
+            <td>{{ gear.usage_count }}</td>
+            <td>{{ gear.price_per_duration}}</td>
+            <td>{{ gear.average_km_per_use|floatformat:1 }} km</td>
+            <td><a href="{% url 'equipment_edit' gear.id %}">Edit</a></td>
+            <td>
+              {% for sport in gear.default_uses.all %}
+                {{ sport.name }}{% if not forloop.last %}, {% endif %}
+              {% empty %}
+                Ei määritelty
+              {% endfor %}
+            </td>
+            <td>{{ gear.get_status_display }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No gear found. Add new gear to see it here.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div>
+    <a href="{% url 'gear_add' %}">Add New Gear</a>
+</div>
+
+<div>
+    <a href="{% url 'user' %}">Back to Dashboard</a>
+</div>

@@ -1,0 +1,8 @@
+[
+    { "value": "N", "label": "Narrow (N)" },
+    { "value": "B", "label": "Standard - Women (B)" },
+    { "value": "D", "label": "Standard - Men / Wide - Women (D)" },
+    { "value": "2E", "label": "Wide - Men (2E)" },
+    { "value": "4E", "label": "Extra Wide (4E)" },
+    { "value": "6E", "label": "XX-Wide (6E)" }
+]

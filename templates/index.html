@@ -1,0 +1,39 @@
+<!-- templates/about.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .maintext {
+  margin: 0;
+  padding: 2%;
+  background-color: rgb(245,245,245);
+  min-inline-size: 300px;
+ }
+
+  .container {
+  display: flex;
+  align-items: center;
+  justify-content: center
+  }
+
+</style>
+<header class="masthead">
+  <p>
+    {% load static %}
+  </p>
+  <div class="overlay"></div>
+  <div class="container">
+    <article class="maintext">
+      <div class = "row">
+        <div class="col-md-3">
+          <img src="{% static 'media/Atte-modified2.png' %}" width="100%", height="auto" alt="", border="1px", id = "kuva"/>
+        </div>
+        <div class="col-md-9">
+          <p>{{ text|safe }}</p>
+        </div>
+      </div>
+    </article>
+  </div>
+</header>
+
+{% endblock content %}

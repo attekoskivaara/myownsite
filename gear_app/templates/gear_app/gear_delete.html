@@ -1,0 +1,7 @@
+<h1>Delete Gear: {{ gear.name }}</h1>
+<p>Are you sure you want to delete this gear?</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>
+<a href="{% url 'gear_list' %}">Cancel</a>

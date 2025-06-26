@@ -1,0 +1,7 @@
+<h1>Add Gear</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+<a href="{% url 'gear_list' %}">Back to My Gears</a>

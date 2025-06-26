@@ -1,0 +1,146 @@
+<form action="{% url 'equipment_submit' %}" method="post">
+    {% csrf_token %}
+
+    <label>Sport</label>
+    <select id="sport" name="sport" onchange="fetchEquipmentTypes()">
+        <option value="">Select Sport</option>
+        {% for sport in sports %}
+            <option value="{{ sport.id }}">{{ sport.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Equipment Type</label>
+    <select id="equipment_type" name="equipment_type" onchange="loadCustomFields()">
+        <option value="">Select equipment type</option>
+    </select>
+
+    <!-- Kiinteät kentät -->
+    <label>Brand</label>
+    <input type="text" name="brand" id="brand" required>
+
+    <label>Model</label>
+    <input type="text" name="model" id="model" required>
+
+    <label>Weight (kg)</label>
+    <input type="number" step="0.01" name="weight" id="weight">
+
+    <label>Purchase Date</label>
+    <input type="date" name="purchase_date" id="purchase_date">
+
+    <label>Purchase Price (€)</label>
+    <input type="number" step="0.01" name="purchase_price" id="purchase_price">
+
+    <label>Default gears in: </label>
+    {% for sport in sports %}
+        <input type="checkbox" name="default_uses" value="{{ sport.id }}"
+            {% if sport in gear.default_uses.all %}checked{% endif %}>
+        {{ sport.name }}<br>
+    {% endfor %}
+
+    <label>Gear status: </label>
+    <select id="status" name="status" required>
+        <option value="">Select Gear Status</option>
+        <option value="active">In active use</option>
+        <option value="secondary">Secondary use</option>
+        <option value="disposed">Disposed</option>
+    </select>
+
+
+    <!-- Dynaamiset custom_field-kentät -->
+    <div id="custom_fields_container"></div>
+
+    <button type="submit">Save Equipment</button>
+</form>
+
+
+<script>
+    let equipmentData = {};
+
+    function fetchEquipmentTypes() {
+        const sportId = document.getElementById('sport').value;
+        const equipmentTypeSelect = document.getElementById('equipment_type');
+        equipmentTypeSelect.innerHTML = '<option value="">Select equipment type</option>';
+        document.getElementById('custom_fields_container').innerHTML = '';
+
+        if (sportId) {
+            fetch(`/gear/get-equipment-types/?sport_id=${sportId}`)
+                .then(response => response.json())
+                .then(data => {
+                    equipmentData = data;
+                    data.forEach(type => {
+                        const option = document.createElement('option');
+                        option.value = type.id;
+                        option.textContent = type.name;
+                        equipmentTypeSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching equipment types:', error));
+        }
+    }
+
+    function loadCustomFields() {
+        const equipmentTypeId = document.getElementById('equipment_type').value;
+        const customFieldsContainer = document.getElementById('custom_fields_container');
+        customFieldsContainer.innerHTML = '';
+
+        const selectedEquipment = equipmentData.find(item => item.id == equipmentTypeId);
+        if (selectedEquipment && selectedEquipment.custom_field_structure) {
+            const customFields = selectedEquipment.custom_field_structure;
+
+            Object.keys(customFields).forEach(field => {
+                // Luo otsikko custom fieldille
+                const label = document.createElement('label');
+                label.textContent = field;
+
+                // Tarkistaa, onko JSON-tiedosto olemassa custom fieldille
+                const jsonUrl = `/static/gear_app/data/custom_fields/${field.toLowerCase().replace(/ /g, "_")}.json`;
+
+                fetch(jsonUrl)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(`JSON for ${field} not found`);
+                        }
+                    })
+                    .then(options => {
+                        // Jos JSON-tiedosto löytyy, luodaan dropdown-valikko
+                        const select = document.createElement('select');
+                        select.name = `custom_fields[${field}]`;
+                        select.id = field;
+                        select.innerHTML = '<option value="">Select option</option>';
+
+                        options.forEach(optionData => {
+                            const option = document.createElement('option');
+                            option.value = optionData.value;
+                            option.textContent = optionData.label;
+                            select.appendChild(option);
+                        });
+
+                        const fieldWrapper = document.createElement('div');
+                        fieldWrapper.classList.add('custom-field');
+                        fieldWrapper.appendChild(label);
+                        fieldWrapper.appendChild(select);
+
+                        customFieldsContainer.appendChild(fieldWrapper);
+                    })
+                    .catch(error => {
+                        console.log(`No dropdown options for ${field}:`, error);
+
+                        // Jos JSON-tiedostoa ei ole, luo normaali input-kenttä
+                        const input = document.createElement('input');
+                        input.type = customFields[field];
+                        input.name = `custom_fields[${field}]`;
+                        input.id = field;
+
+                        const fieldWrapper = document.createElement('div');
+                        fieldWrapper.classList.add('custom-field');
+                        fieldWrapper.appendChild(label);
+                        fieldWrapper.appendChild(input);
+
+                        customFieldsContainer.appendChild(fieldWrapper);
+                    });
+            });
+        }
+    }
+</script>

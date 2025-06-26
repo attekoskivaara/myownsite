@@ -1,0 +1,57 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'gear_app/styles.css' %}">
+</head>
+
+<!-- activities_list.html -->
+<h2>Your Activities</h2>
+<a href="{% url 'user' %}">Back to User Dashboard</a>
+<table>
+  <thead>
+    <tr>
+      <th>Activity</th>
+      <th>Date</th>
+      <th>Duration</th>
+      <th>Moving Time</th>
+      <th>Distance</th>
+      <th>Elevation Gain</th>
+      <th>Assigned Gears</th>
+      <th>Gears</th>
+      <th>Edit Activity</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for activity in activities %}
+      <tr>
+        <td>{{ activity.sport_type }}</td>
+        <td>{{ activity.start_date|date:"d.m.Y" }}</td>
+        <td>{{ activity.duration }}</td>
+        <td>{{ activity.moving_time }}</td>
+        <td>{{ activity.distance|floatformat:2 }} km</td>
+        <td>{{ activity.elevation_gain }}</td>
+        <td>
+          {% for gear in activity.gears.all %}
+          <li>
+            {{ gear.brand }} {{ gear.model }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+          </li>
+        </td>
+        <td><a href="{% url 'assign_gear' activity.id %}">Assign Gear</a></td>
+        <td><a href="{% url 'activity_edit' activity.id %}">Edit</a></td>
+        </tr>
+
+    {% endfor %}
+
+  </tbody>
+    <a href="{% url 'sync_strava_activities' %}">Sync strava</a>
+  {% if messages %}
+  <ul id="popup-messages">
+  {% for message in messages %}
+    <li class="message {{ message.tags }}">{{ message }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}§    <qqqqqqqqq>    5632             56   8å </qqqqqqqqq>
+</table>
+

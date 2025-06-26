@@ -1,0 +1,11 @@
+<!-- assign_gear.html -->
+<h2>Assign Gear to {{ activity.name }}</h2>
+
+<form method="POST">
+  {% csrf_token %}
+
+  <!-- Form rendering with checkbox for selecting multiple gears -->
+  {{ form.as_p }}
+
+  <button type="submit">Save Changes</button>
+</form>

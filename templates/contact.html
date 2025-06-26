@@ -1,0 +1,43 @@
+<!-- templates/about.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+td {
+vertical-align: middle;
+}
+</style>
+<header class="masthead">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class=" col-md-8 col-md-10 mx-auto">
+        <div class="site-heading">
+          <h3 class=" site-heading my-4 mt-3 text-dark"> Contact information </h3>
+          <table class="table table-striped">
+            <tr>
+              <td>Work</td>
+              <td><p><i>Researcher</i> - Natural resources institute Finland</p><p><i>Doctoral researcher</i> - University of Helsinki</p></td>
+            </tr>
+              <td>Research interests</td>
+              <td>
+                <li>Business economics</li>
+                <li>Sustainable business models</li>
+                <li>Sustainable innovation</li>
+              </td>
+            </tr>
+            <tr>
+              <td>Social media</td>
+              <td>
+                  <li><a href="https://www.linkedin.com/in/atte-koskivaara-b8b84457/" target="_blank">LinkedIn</a></li>
+                  <li>atte.koskivaara(at)luke.fi</li>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% endblock content %}

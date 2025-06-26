@@ -1,0 +1,121 @@
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Muokkaa Gearia</title>
+</head>
+<body>
+    <h1>Muokkaa Gearia</h1>
+
+    <form method="POST" action="{% url 'gear_update' gear.id %}">
+        {% csrf_token %}
+
+        <!-- Esimerkki perus kentistä -->
+        <label for="equipment_type">Equipment Type:</label>
+        <input type="text" id="equipment_type" name="equipment_type" value="{{ gear.equipment_type }}" ><br>
+
+        <label for="purchase_price">Purchase price:</label>
+        <input type="number" id="purchase_price" name="purchase_price" value="{{ gear.purchase_price }}" ><br>
+
+
+        <label for="brand">Brand:</label>
+        <input type="text" id="brand" name="brand" value="{{ gear.brand }}"><br>
+
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model" value="{{ gear.model }}"><br>
+
+        <label>Default uses</label><br>
+            {% for sport in sports %}
+                <label>
+                <input type="checkbox" name="default_uses" value="{{ sport.id }}"
+                    {% if sport in gear.default_uses.all %}checked{% endif %}>
+                {{ sport.name }}
+                </label><br>
+            {% endfor %}
+
+
+        <label for ="status">Gear status</label>
+        <select id="status" name="status" required>
+            <option value="active" {% if gear.status == 'active' %}selected{% endif %}>In active use</option>
+            <option value="secondary" {% if gear.status == 'secondary' %}selected{% endif %}>Secondary use</option>
+            <option value="disposed" {% if gear.status == 'disposed' %}selected{% endif %}>Disposed</option>
+        </select>
+
+
+        <!-- Custom fields -kenttä dynaamisille kentille -->
+        {% for field in custom_fields_structure %}
+            <label for="custom_fields_{{ field.name }}">{{ field.label }}</label>
+            <select id="custom_fields_{{ field.name }}" name="custom_fields[{{ field.name }}]">
+                <!-- Dropdown täytetään JavaScriptillä -->
+            </select>
+        {% endfor %}
+
+        <button type="submit">Save Changes</button>
+        <p>
+        <a href="{% url 'gear_list' %}">Back to Gears</a>
+        </p>
+
+    </form>
+
+    <!-- JavaScript-osio -->
+    <script>
+        // Odotetaan, kunnes kaikki elementit on ladattu
+        document.addEventListener("DOMContentLoaded", function() {
+            // Lataa ja aseta valituksi tallennettu arvo, jos sellainen on olemassa
+            {% for field in custom_fields_structure %}
+                const selectedValue_{{ field.name }} = "{{ gear.custom_fields|get_item:field.name }}";
+                loadOptions("{{ field.name }}", selectedValue_{{ field.name }});
+            {% endfor %}
+        });
+
+        // Asynkroninen funktio ladata JSON-tiedoston tiedot dynaamiselle kentälle
+        async function loadOptions(fieldName, selectedValue) {
+            try {
+                const response = await fetch(`/static/gear_app/data/custom_fields/${fieldName}.json`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const options = await response.json();
+
+                // Päivitä dropdown listalla JSON-vaihtoehdot
+                populateDropdown(fieldName, options, selectedValue);
+            } catch (error) {
+                console.error(`Error loading options for ${fieldName}:`, error);
+            }
+        }
+
+        // Täytetään pudotusvalikko ladatuilla vaihtoehdoilla
+// Täytetään pudotusvalikko ladatuilla vaihtoehdoilla
+function populateDropdown(fieldName, options, selectedValue) {
+    const selectElement = document.getElementById(`custom_fields_${fieldName}`);
+
+    // Tyhjennetään mahdolliset olemassa olevat vaihtoehdot
+    selectElement.innerHTML = '';
+
+    // Lisätään vaihtoehdot JSON-tiedostosta
+    options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option.value;
+        optionElement.textContent = option.label;
+
+        // Asetetaan valituksi, jos se vastaa tallennettua arvoa
+        if (option.value === selectedValue) {
+            optionElement.selected = true;
+        }
+        selectElement.appendChild(optionElement);
+    });
+
+    // Jos valittua arvoa ei ole, lisää valitse vaihtoehto
+    if (!selectedValue) {
+        const defaultOption = document.createElement('option');
+        defaultOption.value = "";
+        defaultOption.textContent = "Valitse vaihtoehto";
+        selectElement.insertBefore(defaultOption, selectElement.firstChild);
+    }
+}
+
+    </script>
+</body>
+</html>

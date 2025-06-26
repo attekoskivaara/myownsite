@@ -1,0 +1,39 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'gear_app/styles.css' %}">
+</head>
+
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label for="sport_type">Sport Type:</label>
+    <select id="sport_type" name="sport_type" required>
+        <option value ="{{ sport.id }}">Sport Type</option>
+            {% for sport in sports %}
+                <option value="{{ sport.id }}" {% if activity.sport_type == sport.name %}selected{% endif %}>
+                    {{ sport.name }}
+                </option>
+            {% endfor %}
+    </select><br>
+
+
+
+    <label for="start_date">Start Date:</label>
+    <input type="date" id="start_date" name="start_date" value="{{ activity.start_date|date:'Y-m-d' }}"><br>
+
+    <label for="duration">Duration (hh:mm:ss):</label>
+    <input type="text" id="duration" name="duration" value="{{ activity.duration }}"><br>
+
+    <label for="moving_time">Moving Time (hh:mm:ss):</label>
+    <input type="text" id="moving_time" name="moving_time" value="{{ activity.moving_time }}"><br>
+
+    <label for="distance">Distance (km):</label>
+    <input type="number" step="0.01" id="distance" name="distance" value="{{ activity.distance }}"><br>
+
+    <label for="elevation_gain">Elevation Gain (m):</label>
+    <input type="number" step="1" id="elevation_gain" name="elevation_gain" value="{{ activity.elevation_gain }}"><br>
+
+    <button type="submit">Save</button>
+</form>
