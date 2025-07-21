@@ -22,7 +22,7 @@ import re
 # Replace these with your actual Strava client details
 STRAVA_CLIENT_ID = '112240'
 STRAVA_CLIENT_SECRET = 'a47dc730e03f40df1950a5d2ab8e0a91fe7d7a1b'
-STRAVA_REDIRECT_URI = 'http://localhost:8000/activities/strava_callback_view/'
+STRAVA_REDIRECT_URI = 'http://www.attekoskivaara.com/activities/strava_callback_view/'
 
 
 @login_required

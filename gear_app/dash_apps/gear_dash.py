@@ -10,28 +10,34 @@ from datetime import timedelta
 import re
 from gear_app.models import Equipment
 from django_plotly_dash import DjangoDash
-
+import pymysql
 
 # Luo Dash-sovellus
 app = DjangoDash("gear_dash", serve_locally=True)
 
 def serve_layout():
     # Yhdistä SQLite-tietokantaan
-    BASE_DIR = Path(__file__).resolve().parent.parent.parent
-    db_path = os.path.join(BASE_DIR, 'db.sqlite3')
-    conn = sqlite3.connect(db_path)
 
-    # SQL-kysely välinetietoihin
+    # 1) MySQL-yhteys
+    conn = pymysql.connect(
+        host='hulicupter.mysql.pythonanywhere-services.com',
+        user='hulicupter',
+        password='siemensM55!',
+        database='hulicupter$default',
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
     query = """
     SELECT
         e.id,
-        e.brand || ' ' || e.model AS Equipment,
+        CONCAT(e.brand, ' ', e.model) AS Equipment,
         s.name AS Sport,
         et.name AS Type,
-        a.distance AS "Total Distance (km)",
-        a.duration AS "Raw Duration",
-        a.moving_time AS "Moving Time",
-        a.average_speed AS "Average Speed"
+        COALESCE(a.distance, 0) AS "Total Distance (km)",
+        COALESCE(a.duration, 0) AS "Raw Duration",
+        COALESCE(a.moving_time, 0) AS "Moving Time",
+        COALESCE(a.average_speed, 0) AS "Average Speed"
     FROM
         gear_app_equipment e
     JOIN
@@ -44,35 +50,39 @@ def serve_layout():
         activities_app_activity a ON a.id = ag.activity_id
     """
 
-    # Lue data
+    # 3) Lue ja pakota numerotyyppiset
     df = pd.read_sql_query(query, conn)
     conn.close()
+
+
+    # Pakota numeeriseksi
+    num_cols = ['Total Distance (km)', 'Raw Duration', 'Moving Time', 'Average Speed']
+    for col in num_cols:
+        df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
+    print("LUL")
     print(df)
 
-    # Luo dict {id: [sport names]}
+    # Hae default uses ORM:llä
     equipment_default_uses = {
         eq.id: ", ".join(s.name for s in eq.default_uses.all())
         for eq in Equipment.objects.all()
     }
-
-    # Lisää sarake "Default Uses"
     df["Default Uses"] = df["id"].map(equipment_default_uses)
 
+    # Lisää muokattu sarake ja aggregoi
     df['Total Moving Time (hours)'] = (df['Moving Time'] / (1_000_000 * 3600)).round(1)
-    # Laske käyttömäärät
+    print("ny täsä")
+    print(df[['Equipment', 'Total Distance (km)', 'Moving Time', 'Total Moving Time (hours)']])
 
     usage_counts = df.groupby('Equipment')['Total Distance (km)'].count().reset_index(name='Usage Count')
-    print(usage_counts)
     df = df.drop(columns=['Moving Time'])
 
-    # Aggregoi arvot (summa kestoista, etäisyys, keskinop, määrät)
     summary_df = df.groupby('Equipment', as_index=False).agg({
         'Sport': 'first',
         'Type': 'first',
-        'Total Moving Time (hours)': lambda x: round(x.sum(), 1),
-        'Total Distance (km)': lambda x: round(x.sum(), 1),
+        'Total Moving Time (hours)': 'sum',
+        'Total Distance (km)': 'sum',
     })
-
     # Liitä summary_df:ään
     summary_df = summary_df.merge(usage_counts, on='Equipment', how='left')
 

@@ -2,7 +2,7 @@ import os
 import django
 
 # Aseta Django-projektin asetukset
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'GearTracker.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 
 from gear_app.models import Sport

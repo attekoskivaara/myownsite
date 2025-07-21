@@ -64,12 +64,13 @@ PLOTLY_DASH = {
 
 SECRET_KEY = config('SECRET_KEY')
 
+'''
 if os.environ.get('DJANGO_ENV') == 'production':
     DEBUG = False
 else:
     DEBUG = True
-
-
+'''
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['*']
@@ -170,7 +171,33 @@ LOGOUT_REDIRECT_URL = 'login'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'hulicupter$default',
+        'USER': 'hulicupter',
+        'PASSWORD': config('RDS_PASSWORD'),
+        'HOST': 'hulicupter.mysql.pythonanywhere-services.com',
+        'CONN_MAX_AGE': 0,
+    },
+    }
+'''
+    'geartracker': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'hulicupter$geartracker',
+        'USER': 'hulicupter',
+        'PASSWORD': config('RDS_PASSWORD'),
+        'HOST': 'hulicupter.mysql.pythonanywhere-services.com',
+        'CONN_MAX_AGE': 0,
+    }
 
+}
+'''
+
+# DATABASE_ROUTERS = ['mysite.db_router.GearTrackerRouter']
+
+
+'''
 if os.environ.get('DJANGO_ENV') == 'production':
     DATABASES = {
         'default': {
@@ -189,6 +216,8 @@ else:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+'''
+
 
 '''
 if 'RDS_HOSTNAME' in os.environ:

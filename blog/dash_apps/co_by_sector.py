@@ -29,11 +29,13 @@ external_stylesheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = DjangoDash("co_by_sector",
                  serve_locally=False,
                  external_stylesheets=external_stylesheet)
-
+'''
 if os.environ.get('DJANGO_ENV') == 'production':
     data_path = "/home/hulicupter/myownsite/staticfiles/data"
 else:
     data_path = "C:/dev/myownsite/staticfiles/data"
+'''
+data_path = "/home/hulicupter/myownsite/staticfiles/data"
 
 # Tiedoston koko polku
 myfile = os.path.join(data_path, "european_co2_by_sector_w_indirect_2.xlsx")
