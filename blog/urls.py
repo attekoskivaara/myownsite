@@ -25,7 +25,7 @@ urlpatterns = [
     path('user/', include('user_app.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='user_app/login.html'), name='login'),
     path('user_app/', include('user_app.urls')),
-    path('<slug:slug>/', views.PostDetail.as_view(), name='post_detail'),
+  #  path('<slug:slug>/', views.PostDetail.as_view(), name='post_detail'),
     path("<slug:slug>/", views.post_detail, name="post_detail"),
    # path('user/', views.dashboard_view, name='user'),
  #   path('', lambda request: redirect('user')),  # Root -> dashboard

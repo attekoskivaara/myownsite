@@ -11,6 +11,7 @@ import re
 from gear_app.models import Equipment
 from django_plotly_dash import DjangoDash
 import pymysql
+from dash import Input, Output
 
 # Luo Dash-sovellus
 app = DjangoDash("gear_dash", serve_locally=True)
@@ -39,19 +40,25 @@ def serve_layout():
         COALESCE(a.moving_time, 0) AS "Moving Time",
         COALESCE(a.average_speed, 0) AS "Average Speed"
     FROM
-        gear_app_equipment e
+        activities_app_activity a
     JOIN
+        activities_app_activity_gears ag ON a.id = ag.activity_id
+    JOIN
+        gear_app_equipment e ON ag.equipment_id = e.id
+    LEFT JOIN
         gear_app_sport s ON e.sport_id = s.id
-    JOIN
+    LEFT JOIN
         gear_app_equipmenttype et ON e.equipment_type_id = et.id
-    LEFT JOIN
-        activities_app_activity_gears ag ON ag.equipment_id = e.id
-    LEFT JOIN
-        activities_app_activity a ON a.id = ag.activity_id
     """
 
-    # 3) Lue ja pakota numerotyyppiset
-    df = pd.read_sql_query(query, conn)
+
+
+ #   df = pd.read_sql_query(query, conn)
+    with conn.cursor() as cursor:
+        cursor.execute(query)
+        rows = cursor.fetchall()
+    df = pd.DataFrame(rows)
+
     conn.close()
 
 
@@ -59,25 +66,23 @@ def serve_layout():
     num_cols = ['Total Distance (km)', 'Raw Duration', 'Moving Time', 'Average Speed']
     for col in num_cols:
         df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
-    print("LUL")
-    print(df)
-
+    '''
     # Hae default uses ORM:llä
     equipment_default_uses = {
         eq.id: ", ".join(s.name for s in eq.default_uses.all())
         for eq in Equipment.objects.all()
     }
     df["Default Uses"] = df["id"].map(equipment_default_uses)
-
+    '''
     # Lisää muokattu sarake ja aggregoi
     df['Total Moving Time (hours)'] = (df['Moving Time'] / (1_000_000 * 3600)).round(1)
-    print("ny täsä")
-    print(df[['Equipment', 'Total Distance (km)', 'Moving Time', 'Total Moving Time (hours)']])
+
 
     usage_counts = df.groupby('Equipment')['Total Distance (km)'].count().reset_index(name='Usage Count')
     df = df.drop(columns=['Moving Time'])
 
     summary_df = df.groupby('Equipment', as_index=False).agg({
+        'Equipment': 'first',
         'Sport': 'first',
         'Type': 'first',
         'Total Moving Time (hours)': 'sum',
@@ -86,6 +91,9 @@ def serve_layout():
     # Liitä summary_df:ään
     summary_df = summary_df.merge(usage_counts, on='Equipment', how='left')
 
+    print("nimet")
+    print(summary_df.columns.tolist())
+    print(summary_df["Total Moving Time (hours)"].tolist())
     # Nimeä sarakkeet fiksusti
     #summary_df = summary_df.rename(columns={
     #    'duration_timedelta': 'Total Duration (hours)',
@@ -151,3 +159,26 @@ def serve_layout():
 
 app.layout = serve_layout
 
+
+@app.callback(
+    Output('gear-graph', 'figure'),
+    Input('gear-table', 'data')  # ← this gives the filtered data
+)
+def update_figure(filtered_data):
+    if not filtered_data:
+        return px.bar(title="No data")
+
+    filtered_df = pd.DataFrame(filtered_data)
+
+    # You can use the same color map and hover data
+    fig = px.bar(
+        filtered_df,
+        x='Equipment',
+        y='Total Distance (km)',
+        color='Equipment',
+        hover_data=['Total Distance (km)'],
+        title='Total Distance (Filtered)',
+        color_discrete_map=sporty_colors
+    )
+
+    return fig
