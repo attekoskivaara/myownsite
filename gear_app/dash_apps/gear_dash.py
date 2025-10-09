@@ -118,6 +118,27 @@ def serve_layout():
         color_discrete_map=sporty_colors
     )
 
+    # Oikean reunan infopaneeli
+    side_panel = html.Div([
+        html.H3("About This Project"),
+        html.P(
+            "This is a side project to let me track the usage of my sport equipment. "
+            "The data is fetched from my Strava account and combined with equipment "
+            "that I have added through my Gear Tracker application. "
+            "In addition to following the usage of my equipment, "
+            "I can check later on information regarding my gear, "
+            "such as size, price, model etc."
+        )
+    ], style={
+        'width': '30%',
+        'backgroundColor': '#f9f9f9',
+        'border': '1px solid #ddd',
+        'borderRadius': '10px',
+        'padding': '20px',
+        'boxShadow': '2px 2px 5px rgba(0,0,0,0.1)',
+        'height': 'fit-content'
+    })
+
     # Layout ilman funktiota
     return html.Div([
         html.H2("My Gear"),
@@ -139,7 +160,7 @@ def serve_layout():
 
         html.H2("Gear Usage Chart"),
         dcc.Graph(figure=fig),
-
+        side_panel,
     #    html.Br(),
     #    html.A("➕ Add New Gear", href="/gear_app/equipment_form", target="_blank"),
     #    html.Br(),
