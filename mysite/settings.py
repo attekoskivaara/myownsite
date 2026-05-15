@@ -312,15 +312,11 @@ STATICFILES_FINDERS = [
 ]
 
 PLOTLY_COMPONENTS = [
-
-    'dash_core_components',
-    'dash_html_components',
-    'dash_renderer',
     'dpd_components',
     'dpd_static_support',
-
-#   'dash_bootstrap_components'
+    'dash_bootstrap_components',
 ]
+
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 # X_FRAME_OPTIONS = 'DENY
 # Media paths

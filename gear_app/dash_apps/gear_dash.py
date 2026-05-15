@@ -5,13 +5,12 @@ import sqlite3
 import os
 from django_plotly_dash import DjangoDash
 from pathlib import Path
-import dash_html_components as html
 from datetime import timedelta
 import re
 from gear_app.models import Equipment
 from django_plotly_dash import DjangoDash
 import pymysql
-from dash import Input, Output
+from dash import Input, Output, dcc, html
 
 # Luo Dash-sovellus
 app = DjangoDash("gear_dash", serve_locally=True)
